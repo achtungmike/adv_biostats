@@ -15,7 +15,7 @@ library(faraway)
 data("prostate")
 ```
 
-1.	Write down the dimensions of the data.
+1.	Describe the data, include size, top ten rows, and summary statistics.
 ```{r, fig.width=8, fig.height=8}
 # The prostate dataset contains records for 97 men with prostate cancer who 
 # were going to have a radical prostatectomy. 
@@ -54,6 +54,9 @@ summary(mod)$adj.r.squared
 # The R2 value is 0.534, which suggests that this linear model doesn't fit the
 # data very well.
 
+# To get a good estimate of the population standard deviation we can calculate
+# RMSE
+sqrt(((summary(mod)$sigma)^2)/(mod$df.residual))
 ```
 
 &nbsp;
@@ -82,12 +85,12 @@ conf <- predict(mod, list(lcavol = sim_lcavol), int = "c")
 pred <- predict(mod, list(lcavol = sim_lcavol), int = "p")
 
 # plot confidence intervals
-plot(prostate$lcavol, prostate$lpsa, xlab = "log(Cancer volume)", ylab = "Log(PSA)")
+plot(prostate$lcavol, prostate$lpsa, xlab = "log(Cancer volume)", ylab = "Log(PSA)", lwd = 1)
 title(main = "Scatter plot, Linear regression, 95% Confidence Bands, and 95% Prediction Bands")
-matlines(sim_lcavol, conf, lty = c(1,3,3), col = c("blue","green", "green"))
-matlines(sim_lcavol, pred, lty = c(1,5,5), col = c("blue", "red", "red"))
+matlines(sim_lcavol, conf, lty = c(1,2,2), col = c("blue","orange", "orange"), lwd = 4)
+matlines(sim_lcavol, pred, lty = c(1,5,5), col = c("blue", "red", "red"), lwd = 4)
 legend("topleft", legend = c("Linear Regression", "95% Confidence Band", "95% Prediction Band"),
-       pch = c(16,16,16), col = c("blue", "green", "red"))
+       pch = c(16,16,16), col = c("blue", "orange", "red"))
 
 ```
 
