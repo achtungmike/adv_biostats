@@ -1,0 +1,81 @@
+---
+title: "BE7023 Homework 1"
+author: "Mike Lape"
+date: "September 5, 2018"
+output:
+  pdf_document: default
+  word_document: default
+---
+&nbsp;
+
+```{r, get_dat, warning=FALSE, message=FALSE}
+library(faraway)
+data("prostate")
+```
+
+1.	Write down the dimensions of the data.
+```{r, fig.width=8, fig.height=8}
+# The prostate dataset contains records for 97 men with prostate cancer who 
+# were going to have a radical prostatectomy. 
+dim(prostate)
+# The data has 97 rows/observations and 9 columns/variables
+# Below are the top 10 rows
+head(prostate, 10)
+# and here are the summary statistics for the prostate dataset.
+summary(prostate)
+```
+
+&nbsp;
+
+2.   Plot data with x = lcavol and y = lpsa.
+```{r, fig.width=8, fig.height=8}
+plot(prostate$lcavol, prostate$lpsa)
+# The plot ranges from a little below -1 and almost up to 4 in the x-axis, and
+# ranges from just below 0 to just above 5 in the y-axis.  It looks like these
+# two features, lcavol and lpsa, have a pretty linear relationship with each other.
+```
+
+&nbsp;
+
+3.  Fit simple linear regression model with y = lpsa and x = lcavol.
+    Write the prediction equation.
+    Report R2 and comment on it.
+    Estimate population standard deviation
+```{r, fig.width=8, fig.height=8}
+mod <- lm(lpsa ~ lcavol, prostate)
+
+# Get coefficients to write equation:
+mod$coefficients
+# Preiction Model: Yhat = 1.507 + 0.719 * X
+summary(mod)$adj.r.squared
+# The R2 value is 0.534, which suggests that this linear model doesn't fit the
+# data very well.
+
+```
+
+&nbsp;
+
+4.  Prostate specific antigent (PSA) is an enzyme excreted from epithelial cells on
+    the prostate.  In men with normal prostates PSA is found in the blood in small 
+    quantities, but is often at a higher level in men with prostate cancer or other
+    prostate issues.  It is therefore used as a diagnostic test for prostate cancer.
+    By taking some blood from the man and measuring the PSA level they can determine
+    if he has a helthy prostate or an abnormal one that requires further investigation.
+&nbsp;
+
+5.  Transform regression model back to original variables, comment on resultant model.
+```{r}
+
+```
+
+&nbsp;
+
+6.  Build 95% confidence bands as well as prediction bands around regression line.
+```{r, fig.width=8, fig.height=8}
+# First we need to generate some simulated lcavol lpsa pairs.
+# Using min and max values to define range
+sim_lcavol <-  seq(-1.3471,3.8210)
+sim_lpsa <- seq(-0.4308, 5.5829)
+```
+
+
