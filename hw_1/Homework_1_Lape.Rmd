@@ -3,9 +3,9 @@ title: "BE7023 Homework 1"
 author: "Mike Lape"
 date: "September 12, 2018"
 output:
+  pdf_document: default
   html_document:
     df_print: paged
-  pdf_document: default
   word_document: default
 ---
 &nbsp;
@@ -81,7 +81,10 @@ log(psa) = log(4.51 * cavol^0.719)
 psa = 4.51 * cavol^0.719  
 (psa / cavol^0.719) = 4.51  
 
-From the fact that the ratio of psa to cavol is equal to a positive number we can tell that there is a positive correlation between psa and cancer volume.
+This tells us that the average ratio between psa and cancer volume to the
+power of 0.719 is 4.51.  So if we know only the PSA or only the cancer
+volume then we can calculate what the average value of the other variable 
+using this formula.
 
 &nbsp;
 
