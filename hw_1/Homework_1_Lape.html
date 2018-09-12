@@ -200,21 +200,21 @@ summary(mod)$adj.r.squared</code></pre>
 
 # To get a good estimate of the population standard deviation we can calculate
 # RMSE
-pop_sd &lt;- sqrt(((summary(mod)$sigma)^2)/(mod$df.residual))
+pop_sd &lt;- summary(mod)$sigma
 paste(&quot;We thus estimate the population standard deviation to be &quot;, round(pop_sd,3))</code></pre>
-<pre><code>## [1] &quot;We thus estimate the population standard deviation to be  0.081&quot;</code></pre>
+<pre><code>## [1] &quot;We thus estimate the population standard deviation to be  0.787&quot;</code></pre>
 <p> </p>
 <ol start="4" style="list-style-type: decimal">
 <li><p>Prostate specific antigen (PSA) is an enzyme excreted from epithelial cells on the prostate. In men with normal prostates PSA is found in the blood in small quantities, but is often found at a higher level in men with prostate cancer or other prostate issues. It is therefore used as a diagnostic test for prostate cancer. By taking some blood from the man and measuring the PSA level they can determine if he has a healthy prostate or an abnormal one that requires further investigation.  </p></li>
-<li><p>Transform regression model back to original variables, comment on resultant model.</p></li>
+<li><p>Transform regression model back to original variables, comment on resultant model. Both variables being considered here are log transformed. So lpsa is really log(psa), while lcavol is log(cavol). To get the prediction model out of the log form we transform it as follows.</p></li>
 </ol>
-<pre class="r"><code># Both variables being considered here are log transformed.  So lpsa is really log(psa), while lcavol is log(cavol).  To get the
-# prediction model out of the log form we transform it as follows.
-# log(psa) =  1.507 + 0.719 * log(cavol)
-# log(psa) = e^(1.507) + 0.719 * log(cavol)
-# log(psa) = 4.51 + log(cavol^0.719)
-# log(psa) = log(4.51 * cavol^0.719)
-# psa = 4.51 * cavol^0.719</code></pre>
+<p>log(psa) = 1.507 + 0.719 * log(cavol)<br />
+log(psa) = log(e^(1.507)) + 0.719 * log(cavol)<br />
+log(psa) = log(4.51) + log(cavol^0.719)<br />
+log(psa) = log(4.51 * cavol^0.719)<br />
+psa = 4.51 * cavol^0.719<br />
+(psa / cavol^0.719) = 4.51</p>
+<p>From the fact that the ratio of psa to cavol is equal to a positive number we can tell that there is a positive correlation between psa and cancer volume.</p>
 <p> </p>
 <ol start="6" style="list-style-type: decimal">
 <li>Build 95% confidence bands as well as prediction bands around regression line.</li>

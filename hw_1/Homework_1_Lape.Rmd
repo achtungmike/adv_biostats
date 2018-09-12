@@ -51,12 +51,12 @@ mod <- lm(lpsa ~ lcavol, prostate)
 mod$coefficients
 # Prediction Model: lpca = 1.507 + 0.719 * lcavol
 summary(mod)$adj.r.squared
-# The R2 value is 0.534, which suggests that this linear model doesn't fit the
+# The R2 value is 0.535, which suggests that this linear model doesn't fit the
 # data very well.
 
 # To get a good estimate of the population standard deviation we can calculate
 # RMSE
-pop_sd <- sqrt(((summary(mod)$sigma)^2)/(mod$df.residual))
+pop_sd <- summary(mod)$sigma
 paste("We thus estimate the population standard deviation to be ", round(pop_sd,3))
 ```
 
@@ -71,16 +71,17 @@ paste("We thus estimate the population standard deviation to be ", round(pop_sd,
 &nbsp;
 
 5.  Transform regression model back to original variables, comment on resultant model.
-```{r}
-# Both variables being considered here are log transformed.  So lpsa is really log(psa), while lcavol is log(cavol).  To get the
-# prediction model out of the log form we transform it as follows.
-# log(psa) =  1.507 + 0.719 * log(cavol)
-# log(psa) = e^(1.507) + 0.719 * log(cavol)
-# log(psa) = 4.51 + log(cavol^0.719)
-# log(psa) = log(4.51 * cavol^0.719)
-# psa = 4.51 * cavol^0.719
+Both variables being considered here are log transformed.  So lpsa is really log(psa), while lcavol is log(cavol).  To get the
+prediction model out of the log form we transform it as follows. 
+  
+log(psa) =  1.507 + 0.719 * log(cavol)  
+log(psa) = log(e^(1.507)) + 0.719 * log(cavol)  
+log(psa) = log(4.51) + log(cavol^0.719)  
+log(psa) = log(4.51 * cavol^0.719)  
+psa = 4.51 * cavol^0.719  
+(psa / cavol^0.719) = 4.51  
 
-```
+From the fact that the ratio of psa to cavol is equal to a positive number we can tell that there is a positive correlation between psa and cancer volume.
 
 &nbsp;
 
