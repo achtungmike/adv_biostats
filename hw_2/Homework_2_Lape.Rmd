@@ -1,12 +1,12 @@
 ---
-title: "BE7023 Homework 2"
+title: "BE7023_Homework_2"
 author: "Mike Lape"
 date: "September 19, 2018"
 output:
-  word_document: default
+  pdf_document: default
   html_document:
     df_print: paged
-  pdf_document: default
+  word_document: default
 ---
 &nbsp;
 
@@ -31,8 +31,8 @@ dim(dat)
 # The animals dataset contains the average brain and body weights for 
 # 28 species of land animals.  The body variable represents body weight in kg,
 # and the brain variable represents the brain weight in g.
-# We can also look at the summary of the data to see what's going on. And also
-# we can look at the first 6 rows to get a good idea of the data.
+# We can also look at the summary statistics for the data to see what's going on. Also,
+# we can look at the first 6 rows to get a good view of how the data is organized.
 summary(dat)
 # It looks like our lightest animal weighs in at only 0.02 kg, while our biggest
 # weighs 87,000 kg!  Likewise, the lightest brain weighs 0.4 g, whereas the 
@@ -134,8 +134,9 @@ l_dat_dino <- l_dat[!rownames(l_dat) %in% dinos,]
 # Plots were generated using commands above and saved, then inserted into this document.
 
 ```
-![](q5.png)
 
+
+![](q5.png)
 The relationship between the log of the body weight and the log of the brain
 weight after removing the dinosaurs looks much more linear, which makes sense 
 as the dinosaurs definitely appeared to be outliers.
@@ -160,8 +161,9 @@ mod_dino <- lm(brain ~ body, l_dat_dino)
 
 # Plots were generated using commands above and saved, then inserted into this document.
 ```
-![](q5_2.png)
 
+
+![](q5_2.png)
 &nbsp;
 
 6.  Write the prediction model coming from Question 5 directly in terms of the original variables.  
