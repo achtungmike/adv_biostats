@@ -1,0 +1,245 @@
+---
+title: "BE7023 Homework 7"
+author: "Mike Lape"
+date: "November 7, 2018"
+output:
+  pdf_document: default
+fontsize: 14pt
+---
+&nbsp;
+
+```{r, get_dat, warning=FALSE, message=FALSE}
+#setwd("C:/Users/lapt3u/Box/UC/Fall_2018/BE7023_Adv_Biostats/adv_biostats/hw_7")
+library(VGAM)
+# Death < Vegetative < Major Disability < Minor Disability < Good Recovery 
+# Load the data
+treat     <- c(1,2,3,4)
+death     <- c(59,48,44,43)
+veg       <- c(25,21,14,4)
+maj_dis   <- c(46,44,54,49)
+min_dis   <- c(48,47,64,58)
+good      <- c(32,30,31,41)
+total     <- rowSums(dat[2:6])
+
+dat <- data.frame(treat, death, veg, maj_dis, min_dis, good)
+
+```
+
+&nbsp;
+
+1. Postulate a multinomial logistic regression model by treating the covariate as numerical.
+```{r, fig.width=8, fig.height=8}
+mod <- vglm(cbind(death, veg, maj_dis, min_dis, good) ~ treat, data = dat,
+            family = multinomial)
+summary(mod)
+```
+
+&nbsp;
+
+2.	Count the number of parameters in the model.   
+Including the intercepts this model contains 8 parameters!
+
+
+
+&nbsp;
+
+3.	Fit the model to the data. Write the prediction model. 
+The model was fit in problem 1, the prediction equation is below.
+
+Z = 
+
+
+&nbsp;  
+
+4.	Check the adequacy of the model
+```{r, fig.width=8, fig.height=8}
+# Check the goodness of fit!
+res_dev <- 5.9785
+dof     <- 8
+p       <- round(pchisq(res_dev, dof, lower.tail = F),3)
+
+paste("p-val: ", p, sep = "")
+# Our p-value is 0.650, which means we cannot reject our null hypothesis and
+# thus our multinomial model fits our data well.
+```
+
+&nbsp;  
+
+
+5.	Compare the observed and predicted probabilities and frequencies.
+```{r, fig.width=8, fig.height=8}
+
+```
+
+&nbsp;  
+
+6.	Obtain bar plots of predicted probabilities in two different ways. 
+```{r, fig.width=8, fig.height=8}
+
+```
+
+&nbsp;  
+
+7. Postulate a multinomial logistic regression model by treating the covariate as categorical.
+```{r, fig.width=8, fig.height=8}
+cat_dat           <- dat
+cat_dat$death     <- as.factor(cat_dat$death)
+cat_dat$veg       <- as.factor(cat_dat$veg)
+cat_dat$maj_dis   <- as.factor(cat_dat$maj_dis)
+cat_dat$min_dis   <- as.factor(cat_dat$min_dis)
+cat_dat$good      <- as.factor(cat_dat$good)
+
+cat_mod <-  
+
+```
+
+&nbsp; 
+
+8.	Count the number of parameters in the model. 
+```{r, fig.width=8, fig.height=8}
+
+```
+
+&nbsp; 
+
+9.	Fit the model to the data. Write the prediction model.
+```{r, fig.width=8, fig.height=8}
+
+```
+
+&nbsp; 
+
+10.	Check the adequacy of the model. 
+```{r, fig.width=8, fig.height=8}
+
+```
+
+&nbsp; 
+
+11.	Compare the observed and predicted probabilities and frequencies. 
+```{r, fig.width=8, fig.height=8}
+
+```
+
+&nbsp; 
+
+12.	Obtain bar plots of predicted probabilities in two different ways
+```{r, fig.width=8, fig.height=8}
+
+```
+
+&nbsp; 
+
+13.	Postulate a proportional odds model by treating the covariate as numerical. 
+```{r, fig.width=8, fig.height=8}
+prop_mod <- vglm(cbind(death, veg, maj_dis, min_dis, good) ~ treat, data = dat,
+            family = cumulative(par = T))
+
+summary(prop_mod)
+```
+
+&nbsp; 
+
+14.	Count the number of parameters in the model. 
+This model has only 4 parameters in it.
+
+&nbsp; 
+
+
+15.	Fit the model to the data. Write the prediction model. 
+The model was fit in number 13, the prediction models can be found below.
+
+Pr(Death|Treatment)
+
+
+
+
+
+Pr()
+
+
+&nbsp; 
+
+16.	Check the adequacy of the model. 
+```{r, fig.width=8, fig.height=8}
+prop_res_dev   <- 18.1825
+prop_dof       <- 11
+prop_p         <- round(pchisq(prop_res_dev, prop_dof, lower.tail = F),3)
+prop_p
+# Our p-value is 0.077 so we still cannot reject our null hypothesis and thus
+# our model adequately fits our data.
+```
+
+&nbsp; 
+
+17.	Compare the observed and predicted probabilities and frequencies. 
+```{r, fig.width=8, fig.height=8}
+prop_pred <- round(predict(prop_mod, newdata = dat, type = "response"),3)
+prop_exp_freq  <- round(prop_pred * total, 1)
+prop_pred_perc <- prop_pred * 100
+rownames(prop_pred_perc)  <- c("Placebo", "Low Dose", "Medium Dose", "High Dose")
+
+```
+
+&nbsp; 
+
+18.	Obtain bar plots of predicted probabilities in two different ways. 
+```{r, fig.width=8, fig.height=8}
+
+```
+
+&nbsp; 
+
+19.	Postulate a proportional odds model by treating the covariate as categorical. 
+```{r, fig.width=8, fig.height=8}
+
+```
+
+&nbsp; 
+
+20.	Count the number of parameters in the model. 
+```{r, fig.width=8, fig.height=8}
+
+```
+
+&nbsp; 
+
+21.	Fit the model to the data. Write the prediction model. 
+```{r, fig.width=8, fig.height=8}
+
+```
+
+&nbsp; 
+
+22.	Check the adequacy of the model. 
+```{r, fig.width=8, fig.height=8}
+
+```
+
+&nbsp; 
+
+23.	Compare the observed and predicted probabilities and frequencies.  
+```{r, fig.width=8, fig.height=8}
+
+```
+
+&nbsp; 
+
+24.	Obtain bar plots of predicted probabilities in two different ways. 
+```{r, fig.width=8, fig.height=8}
+
+```
+
+&nbsp; 
+
+25.	Compare and contrast the four models. 
+    Which of the four models would you propose as summary of the data? 
+    Why? 
+    Which treatment regimen would you recommend? 
+    Why? 
+```{r, fig.width=8, fig.height=8}
+
+```
+
+&nbsp; 
+

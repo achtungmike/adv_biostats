@@ -4,12 +4,14 @@ author: "Mike Lape"
 date: "Octobe 31, 2018"
 output:
   pdf_document: default
+  html_document:
+  word_document: default
 fontsize: 14pt
 ---
 &nbsp;
 
 ```{r, get_dat, warning=FALSE, message=FALSE}
-#setwd("C:/Users/lapt3u/Box/UC/Fall_2018/BE7023_Adv_Biostats/adv_biostats/hw_6")
+setwd("C:/Users/lapt3u/Box/UC/Fall_2018/BE7023_Adv_Biostats/adv_biostats/hw_6")
 library(MASS)
 ```
 
@@ -42,7 +44,7 @@ head(birthwt)
 &nbsp;
 
 2.	Create a new folder by omitting the last column.   
-    Convert ‘race,’ ‘smoke,’ and ‘ht’ as factors.   
+    Convert race,smoke, and ht as factors.   
     Obtain summary statistics.   
 ```{r, fig.width=8, fig.height=8}
 # Drop the last column
@@ -60,9 +62,9 @@ summary(dat)
 
 &nbsp;
 
-3.	Fit a logistic regression model with ‘low’ as the response variable using the new folder         and covariates the rest.   
+3.	Fit a logistic regression model with low as the response variable using the new folder         and covariates the rest.   
     Identify the significant predictors.   
-    Interpret carefully the coefficients associated with ‘race.’   
+    Interpret carefully the coefficients associated with race.   
     Check goodness-of-fit carefully defining what the null hypothesis is. 
 
 &nbsp;
@@ -104,12 +106,12 @@ round(p, 3)
 
 &nbsp;  
 
-4.	Fit a logistic regression model with ‘low’ as the response variable and predictors lwt,          race, smoke, and ht.    
+4.	Fit a logistic regression model with low as the response variable and predictors lwt,          race, smoke, and ht.    
     Write the prediction equation.   
     Identify the most significant predictor.   
     Find a way to plot P(low =1) as a function of lwt in the presence of various choices of          race, smoke, and ht.   
     Check goodness-of-fit.   
-    Obtain ‘confusion matrix.’   
+    Obtain confusion matrix.   
     Calculate the misclassification rate.     
 ```{r, fig.width=8, fig.height=8}
 mod2 <- glm(low ~ lwt + race + smoke + ht, data = dat, family = binomial)
@@ -128,117 +130,121 @@ All of the predictors are significant, the most significant predictor is
 smoke1 (Smoking = Yes) with a p-value of 0.00569.
 
 &nbsp;
+plot P(low =1) as a function of lwt in the presence of various choices 
+of race, smoke, and ht.
+
+For some reason Rmarkdown was not including 4 of the plots so I took a snapshot
+of it working properly in R and just included that here.
+![](p4_small.png)
 
 ```{r, fig.width=8, fig.height=8}
-# plot P(low =1) as a function of lwt in the presence of various choices 
-# of race, smoke, and ht.
-cols <- palette(rainbow(12))
-# RACE = 2
-# Race = 2, smoke = 1, ht = 1
-curve(exp(0.3520 - (0.0179 * x) + (1.2877 * 1) + (0.9436 * 0) + 
-            (1.0716 * 1) + (1.749 * 1)) / 
-        (1 + exp(0.3520 - (0.0179 * x) + (1.2877 * 1) + (0.9436 * 0) + 
-            (1.0716 * 1) + (1.749 * 1))), from = 80, to = 250, lwd = 3,
-                col = cols[1], ylim = c(0,1), 
-          xlab = "Mother's Weight at Last Menstrual Period [lb]",
-          ylab = "Probability of Birth Weight < 2.5 kg", 
-          main = "Probability of Low Birth Weight - Logistic Regression")
-
-# Race = 2, smoke = 1, ht = 0
-curve(exp(0.3520 - (0.0179 * x) + (1.2877 * 1) + (0.9436 * 0) + 
-          (1.0716 * 1) + (1.749 * 0)) / 
-        (1 + exp(0.3520 - (0.0179 * x) + (1.2877 * 1) + (0.9436 * 0) + 
-          (1.0716 * 1) + (1.749 * 0))), col = cols[2], lwd = 3, 
-            add = T)
-
-# Race = 2, smoke = 0, ht = 1
-curve(exp(0.3520 - (0.0179 * x) + (1.2877 * 1) + (0.9436 * 0) + 
-          (1.0716 * 0) + (1.749 * 1)) / 
-        (1 + exp(0.3520 - (0.0179 * x) + (1.2877 * 1) + (0.9436 * 0) + 
-          (1.0716 * 0) + (1.749 * 1))), col = cols[3], lwd = 3, 
-            add = T)
-
-# Race = 2, smoke = 0, ht = 0
-curve(exp(0.3520 - (0.0179 * x) + (1.2877 * 1) + (0.9436 * 0) + 
-          (1.0716 * 0) + (1.749 * 0)) / 
-        (1 + exp(0.3520 - (0.0179 * x) + (1.2877 * 1) + (0.9436 * 0) + 
-          (1.0716 * 0) + (1.749 * 0))), col = cols[4], lwd = 3, 
-            add = T)
-
-##RACE = 3
-
-# Race = 3, smoke = 1, ht = 1
-curve(exp(0.3520 - (0.0179 * x) + (1.2877 * 0) + (0.9436 * 1) + 
-            (1.0716 * 1) + (1.749 * 1)) / 
-        (1 + exp(0.3520 - (0.0179 * x) + (1.2877 * 0) + (0.9436 * 1) + 
-            (1.0716 * 1) + (1.749 * 1))), col = cols[5], lwd = 3, 
-            add = T)
-
-# Race = 3, smoke = 1, ht = 0
-curve(exp(0.3520 - (0.0179 * x) + (1.2877 * 0) + (0.9436 * 1) + 
-          (1.0716 * 1) + (1.749 * 0)) / 
-        (1 + exp(0.3520 - (0.0179 * x) + (1.2877 * 0) + (0.9436 * 1) + 
-          (1.0716 * 1) + (1.749 * 0))), col = cols[6], lwd = 3, 
-            add = T)
-
-
-# Race = 3, smoke = 0, ht = 1
-curve(exp(0.3520 - (0.0179 * x) + (1.2877 * 0) + (0.9436 * 1) + 
-          (1.0716 * 0) + (1.749 * 1)) / 
-        (1 + exp(0.3520 - (0.0179 * x) + (1.2877 * 0) + (0.9436 * 1) + 
-          (1.0716 * 0) + (1.749 * 1))), col = cols[7], lwd = 3, 
-            add = T)
-
-# Race = 3, smoke = 0, ht = 0
-curve(exp(0.3520 - (0.0179 * x) + (1.2877 * 0) + (0.9436 * 1) + 
-          (1.0716 * 0) + (1.749 * 0)) / 
-        (1 + exp(0.3520 - (0.0179 * x) + (1.2877 * 0) + (0.9436 * 1) + 
-          (1.0716 * 0) + (1.749 * 0))), col = cols[8], lwd = 3, 
-            add = T)
-
-# RACE = 1
-# Race = 3, smoke = 1, ht = 1
-curve(exp(0.3520 - (0.0179 * x) + (1.2877 * 0) + (0.9436 * 0) + 
-            (1.0716 * 1) + (1.749 * 1)) / 
-        (1 + exp(0.3520 - (0.0179 * x) + (1.2877 * 0) + (0.9436 * 0) + 
-            (1.0716 * 1) + (1.749 * 1))), col = cols[9], lwd = 3, 
-            add = T)
-
-
-# Race = 0, smoke = 1, ht = 0
-curve(exp(0.3520 - (0.0179 * x) + (1.2877 * 0) + (0.9436 * 0) + 
-          (1.0716 * 1) + (1.749 * 0)) / 
-        (1 + exp(0.3520 - (0.0179 * x) + (1.2877 * 0) + (0.9436 * 0) + 
-          (1.0716 * 1) + (1.749 * 0))), col = cols[10], lwd = 3, 
-            add = T)
-
-# Race = 0, smoke = 0, ht = 1
-curve(exp(0.3520 - (0.0179 * x) + (1.2877 * 0) + (0.9436 * 0) + 
-          (1.0716 * 0) + (1.749 * 1)) / 
-        (1 + exp(0.3520 - (0.0179 * x) + (1.2877 * 0) + (0.9436 * 0) + 
-          (1.0716 * 0) + (1.749 * 1))), col = cols[11], lwd = 3, 
-            add = T)
-
-# Race = 0, smoke = 0, ht = 0
-curve(exp(0.3520 - (0.0179 * x) + (1.2877 * 0) + (0.9436 * 0) + 
-            (1.0716 * 0) + (1.749 * 0)) / 
-        (1 + exp(0.3520 - (0.0179 * x) + (1.2877 * 0) + (0.9436 * 0) + 
-            (1.0716 * 0) + (1.749 * 0))), col = cols[12], lwd = 3, 
-            add = T)
-
-legend("topright", pch = rep(16,12), col = cols, legend = 
-         c("Race = 2, Smoke = Y, HT = Y",
-           "Race = 2, Smoke = Y, HT = N",
-           "Race = 2, Smoke = N, HT = Y",
-           "Race = 2, Smoke = N, HT = N",
-           "Race = 3, Smoke = Y, HT = Y",
-           "Race = 3, Smoke = Y, HT = N",
-           "Race = 3, Smoke = N, HT = Y",
-           "Race = 3, Smoke = N, HT = N",
-           "Race = 1, Smoke = Y, HT = Y",
-           "Race = 1, Smoke = Y, HT = N",
-           "Race = 1, Smoke = N, HT = Y",
-           "Race = 1, Smoke = N, HT = N"))
+# cols <- palette(rainbow(12))
+# # RACE = 2
+# # Race = 2, smoke = 1, ht = 1
+# curve(exp(0.3520 - (0.0179 * x) + (1.2877 * 1) + (0.9436 * 0) +
+#             (1.0716 * 1) + (1.749 * 1)) /
+#         (1 + exp(0.3520 - (0.0179 * x) + (1.2877 * 1) + (0.9436 * 0) +
+#             (1.0716 * 1) + (1.749 * 1))), from = 80, to = 250, lwd = 3,
+#                 col = cols[1], ylim = c(0,1),
+#           xlab = "Mother's Weight at Last Menstrual Period [lb]",
+#           ylab = "Probability of Birth Weight < 2.5 kg",
+#           main = "Probability of Low Birth Weight - Logistic Regression")
+# 
+# # Race = 2, smoke = 1, ht = 0
+# curve(exp(0.3520 - (0.0179 * x) + (1.2877 * 1) + (0.9436 * 0) +
+#           (1.0716 * 1) + (1.749 * 0)) /
+#         (1 + exp(0.3520 - (0.0179 * x) + (1.2877 * 1) + (0.9436 * 0) +
+#           (1.0716 * 1) + (1.749 * 0))), col = cols[2], lwd = 3,
+#             add = T)
+# 
+# # Race = 2, smoke = 0, ht = 1
+# curve(exp(0.3520 - (0.0179 * x) + (1.2877 * 1) + (0.9436 * 0) +
+#           (1.0716 * 0) + (1.749 * 1)) /
+#         (1 + exp(0.3520 - (0.0179 * x) + (1.2877 * 1) + (0.9436 * 0) +
+#           (1.0716 * 0) + (1.749 * 1))), col = cols[3], lwd = 3,
+#             add = T)
+# 
+# # Race = 2, smoke = 0, ht = 0
+# curve(exp(0.3520 - (0.0179 * x) + (1.2877 * 1) + (0.9436 * 0) +
+#           (1.0716 * 0) + (1.749 * 0)) /
+#         (1 + exp(0.3520 - (0.0179 * x) + (1.2877 * 1) + (0.9436 * 0) +
+#           (1.0716 * 0) + (1.749 * 0))), col = cols[4], lwd = 3,
+#             add = T)
+# 
+# ##RACE = 3
+# 
+# # Race = 3, smoke = 1, ht = 1
+# curve(exp(0.3520 - (0.0179 * x) + (1.2877 * 0) + (0.9436 * 1) +
+#             (1.0716 * 1) + (1.749 * 1)) /
+#         (1 + exp(0.3520 - (0.0179 * x) + (1.2877 * 0) + (0.9436 * 1) +
+#             (1.0716 * 1) + (1.749 * 1))), col = cols[5], lwd = 3,
+#             add = T)
+# 
+# # Race = 3, smoke = 1, ht = 0
+# curve(exp(0.3520 - (0.0179 * x) + (1.2877 * 0) + (0.9436 * 1) +
+#           (1.0716 * 1) + (1.749 * 0)) /
+#         (1 + exp(0.3520 - (0.0179 * x) + (1.2877 * 0) + (0.9436 * 1) +
+#           (1.0716 * 1) + (1.749 * 0))), col = cols[6], lwd = 3,
+#             add = T)
+# 
+# 
+# # Race = 3, smoke = 0, ht = 1
+# curve(exp(0.3520 - (0.0179 * x) + (1.2877 * 0) + (0.9436 * 1) +
+#           (1.0716 * 0) + (1.749 * 1)) /
+#         (1 + exp(0.3520 - (0.0179 * x) + (1.2877 * 0) + (0.9436 * 1) +
+#           (1.0716 * 0) + (1.749 * 1))), col = cols[7], lwd = 3,
+#             add = T)
+# 
+# # Race = 3, smoke = 0, ht = 0
+# curve(exp(0.3520 - (0.0179 * x) + (1.2877 * 0) + (0.9436 * 1) +
+#           (1.0716 * 0) + (1.749 * 0)) /
+#         (1 + exp(0.3520 - (0.0179 * x) + (1.2877 * 0) + (0.9436 * 1) +
+#           (1.0716 * 0) + (1.749 * 0))), col = cols[8], lwd = 3,
+#             add = T)
+# 
+# # RACE = 1
+# # Race = 3, smoke = 1, ht = 1
+# curve(exp(0.3520 - (0.0179 * x) + (1.2877 * 0) + (0.9436 * 0) +
+#             (1.0716 * 1) + (1.749 * 1)) /
+#         (1 + exp(0.3520 - (0.0179 * x) + (1.2877 * 0) + (0.9436 * 0) +
+#             (1.0716 * 1) + (1.749 * 1))), col = cols[9], lwd = 3,
+#             add = T)
+# 
+# 
+# # Race = 0, smoke = 1, ht = 0
+# curve(exp(0.3520 - (0.0179 * x) + (1.2877 * 0) + (0.9436 * 0) +
+#           (1.0716 * 1) + (1.749 * 0)) /
+#         (1 + exp(0.3520 - (0.0179 * x) + (1.2877 * 0) + (0.9436 * 0) +
+#           (1.0716 * 1) + (1.749 * 0))), col = cols[10], lwd = 3,
+#             add = T)
+# 
+# # Race = 0, smoke = 0, ht = 1
+# curve(exp(0.3520 - (0.0179 * x) + (1.2877 * 0) + (0.9436 * 0) +
+#           (1.0716 * 0) + (1.749 * 1)) /
+#         (1 + exp(0.3520 - (0.0179 * x) + (1.2877 * 0) + (0.9436 * 0) +
+#           (1.0716 * 0) + (1.749 * 1))), col = cols[11], lwd = 3,
+#             add = T)
+# 
+# # Race = 0, smoke = 0, ht = 0
+# curve(exp(0.3520 - (0.0179 * x) + (1.2877 * 0) + (0.9436 * 0) +
+#             (1.0716 * 0) + (1.749 * 0)) /
+#         (1 + exp(0.3520 - (0.0179 * x) + (1.2877 * 0) + (0.9436 * 0) +
+#             (1.0716 * 0) + (1.749 * 0))), col = cols[12], lwd = 3,
+#             add = T)
+# 
+# legend("topright", pch = rep(16,12), col = cols, legend =
+#          c("Race = 2, Smoke = Y, HT = Y",
+#            "Race = 2, Smoke = Y, HT = N",
+#            "Race = 2, Smoke = N, HT = Y",
+#            "Race = 2, Smoke = N, HT = N",
+#            "Race = 3, Smoke = Y, HT = Y",
+#            "Race = 3, Smoke = Y, HT = N",
+#            "Race = 3, Smoke = N, HT = Y",
+#            "Race = 3, Smoke = N, HT = N",
+#            "Race = 1, Smoke = Y, HT = Y",
+#            "Race = 1, Smoke = Y, HT = N",
+#            "Race = 1, Smoke = N, HT = Y",
+#            "Race = 1, Smoke = N, HT = N"))
 
 # Check goodness-of-fit. 
 res2 <- mod2$deviance
@@ -248,7 +254,7 @@ round(p2,3)
 # Our p-value is 0.097, so we cannot reject the null hypothesis and
 # thus our logistic regression model fits this data well.
 
-# Obtain ‘confusion matrix.’ 
+# Obtain confusion matrix. 
 # Running the training data through the model to get some predictions
 pred <- predict.glm(mod2, type = "response" )
 
